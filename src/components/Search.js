@@ -1,18 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import debounce from './utils/Debounce';
+import useDebounce from './utils/Debounce';
 const Search = () => {
   const [term, setTerm] = useState('programming');
-  const [debouncedTerm, setDebouncedTerm] = useState(term);
   const [results, setResults] = useState([]);
+  const debouncedTerm = useDebounce(term, 1000);
 
-  useEffect(() => {
-    const timerId = debounce(setDebouncedTerm, term);
-
-    return () => {
-      clearTimeout(timerId);
-    };
-  }, [term]);
 
   useEffect(() => {
     const search = async () => {
